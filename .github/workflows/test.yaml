@@ -1,15 +1,20 @@
-resource:
-  azurerm_firewall_network_rule_collection:
-    block_ip_address:
-      name: ""
-      resource_group_name: "Ashutosh_RG"
-      firewall_name: "Ashutosh_FW"
-      priority: 100
-      action: "Deny"
-      rule_type: "NetworkRule"
-      target_fqdns: []
-      source_addresses: ["10.3.5..5"] # Replace with the IP address you want to block
-      destination_addresses: ["*"]
-      protocols: ["*"]
-      source_ports: ["*"]
-      destination_ports: ["*"]
+
+# File: .github/workflows/workflow.yml
+
+on: [push]
+
+name: AzureLoginSample
+
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - run: |
+        az webapp list --query "[?state=='Running']"
+
